@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { CharacterData } from '@/data/mockData';
-import { X } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface CharacterDrawerProps {
   character: CharacterData | null;
@@ -10,6 +11,8 @@ interface CharacterDrawerProps {
 }
 
 export const CharacterDrawer: React.FC<CharacterDrawerProps> = ({ character, isOpen, onClose }) => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -20,6 +23,14 @@ export const CharacterDrawer: React.FC<CharacterDrawerProps> = ({ character, isO
       document.body.style.overflow = '';
     };
   }, [isOpen]);
+
+  const handleNavigate = (path: string) => {
+    onClose();
+    // Small delay to let the drawer start closing before navigating
+    setTimeout(() => {
+      navigate(path);
+    }, 150);
+  };
 
   return (
     <AnimatePresence>
@@ -69,12 +80,24 @@ export const CharacterDrawer: React.FC<CharacterDrawerProps> = ({ character, isO
 
                 {/* Evolution Summary */}
                 <section>
-                  <h4 className="text-[10px] md:text-xs font-bold text-bone-ink/50 uppercase tracking-widest mb-4">演化链条</h4>
-                  <div className="flex justify-between items-center relative">
-                    <div className="absolute left-0 right-0 h-px bg-bone-ink/10 top-1/2 -translate-y-1/2" />
+                  <div 
+                    className="flex items-center justify-between cursor-pointer group mb-4"
+                    onClick={() => handleNavigate('/evolution')}
+                  >
+                    <h4 className="text-[10px] md:text-xs font-bold text-bone-ink/50 uppercase tracking-widest group-hover:text-bone-brown transition-colors">演化链条</h4>
+                    <div className="flex items-center gap-1 text-bone-ink/30 group-hover:text-bone-brown transition-colors">
+                      <span className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">查看完整演化</span>
+                      <ArrowRight size={14} />
+                    </div>
+                  </div>
+                  <div 
+                    className="flex justify-between items-center relative cursor-pointer group"
+                    onClick={() => handleNavigate('/evolution')}
+                  >
+                    <div className="absolute left-0 right-0 h-px bg-bone-ink/10 top-1/2 -translate-y-1/2 group-hover:bg-bone-brown/30 transition-colors" />
                     {character.evolution.map((step, idx) => (
                       <div key={step.era} className="relative z-10 flex flex-col items-center gap-2 bg-bone-paper px-1 md:px-2">
-                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-bone-ink bg-bone-paper flex items-center justify-center text-xs md:text-sm font-serif text-bone-ink">
+                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-bone-ink bg-bone-paper flex items-center justify-center text-xs md:text-sm font-serif text-bone-ink group-hover:border-bone-brown group-hover:text-bone-brown transition-colors">
                           {step.era[0]}
                         </div>
                       </div>
@@ -94,10 +117,26 @@ export const CharacterDrawer: React.FC<CharacterDrawerProps> = ({ character, isO
 
                 {/* Related */}
                 <section>
-                  <h4 className="text-[10px] md:text-xs font-bold text-bone-ink/50 uppercase tracking-widest mb-4">关联字族</h4>
+                  <div 
+                    className="flex items-center justify-between cursor-pointer group mb-4"
+                    onClick={() => handleNavigate('/graph')}
+                  >
+                    <h4 className="text-[10px] md:text-xs font-bold text-bone-ink/50 uppercase tracking-widest group-hover:text-bone-brown transition-colors">关联字族</h4>
+                    <div className="flex items-center gap-1 text-bone-ink/30 group-hover:text-bone-brown transition-colors">
+                      <span className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">查看字族图谱</span>
+                      <ArrowRight size={14} />
+                    </div>
+                  </div>
                   <div className="flex flex-wrap gap-2 md:gap-3">
                     {character.related.map(r => (
-                      <span key={r} className="px-3 md:px-4 py-1 md:py-1.5 border border-bone-ink/20 text-bone-ink text-xs md:text-sm font-serif hover:bg-bone-ink hover:text-bone-paper transition-colors cursor-pointer">
+                      <span 
+                        key={r} 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleNavigate('/graph');
+                        }}
+                        className="px-3 md:px-4 py-1 md:py-1.5 border border-bone-ink/20 text-bone-ink text-xs md:text-sm font-serif hover:bg-bone-brown hover:text-bone-paper hover:border-bone-brown transition-colors cursor-pointer"
+                      >
                         {r}
                       </span>
                     ))}

@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CHARACTERS } from '@/data/mockData';
+import { OracleSun, OracleWater, OracleTree, OracleHorse, OracleField, OracleOx, OraclePerson } from './OracleSVGs';
 
 interface HeroProps {
   onSelectChar: (id: string) => void;
 }
+
+const SCENE_ITEMS = [
+  { id: 'sun', charId: 'sun', component: OracleSun, top: '20%', left: '65%', size: 'w-16 h-16 md:w-24 md:h-24', rotate: -5 },
+  { id: 'water', charId: 'water', component: OracleWater, top: '50%', left: '25%', size: 'w-24 h-24 md:w-32 md:h-32', rotate: 10 },
+  { id: 'horse', charId: 'horse', component: OracleHorse, top: '48%', left: '32%', size: 'w-16 h-16 md:w-24 md:h-24', rotate: -20 }, // Leaning down to drink
+  { id: 'tree', charId: 'tree', component: OracleTree, top: '35%', left: '75%', size: 'w-24 h-24 md:w-36 md:h-36', rotate: -8 },
+  { id: 'field', charId: 'field', component: OracleField, top: '70%', left: '40%', size: 'w-28 h-28 md:w-40 md:h-40', rotate: -12 },
+  { id: 'person', charId: 'person', component: OraclePerson, top: '62%', left: '55%', size: 'w-16 h-16 md:w-20 md:h-20', rotate: 15 }, // Leaning forward to pull
+  { id: 'ox', charId: 'ox', component: OracleOx, top: '60%', left: '65%', size: 'w-20 h-20 md:w-28 md:h-28', rotate: -5 }, // Following person
+];
 
 export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
   const [clickedId, setClickedId] = useState<string | null>(null);
@@ -18,58 +28,60 @@ export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
     }, 400);
   };
 
-  // Scattered positions pushed to the edges to avoid clashing with the center title
-  // Adjusted top/left values to prevent overflow
-  const positions = [
-    { top: '15%', left: '10%', rotate: -5, scale: 1.2 },
-    { top: '65%', left: '15%', rotate: 8, scale: 0.9 },
-    { top: '20%', left: '80%', rotate: -12, scale: 1.1 },
-    { top: '65%', left: '80%', rotate: 5, scale: 1.3 },
-  ];
-
   return (
     <section id="首页" className="relative min-h-[calc(100vh-6rem)] w-full flex flex-col items-center justify-center overflow-hidden bg-bone-bg">
       <div className="absolute inset-0 parchment-texture opacity-60 pointer-events-none" />
       
       {/* Vignette effect for depth */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(44,30,26,0.05)_100%)] pointer-events-none" />
+
+      {/* Faint Landscape Background to emphasize the farming scene */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.15] mix-blend-multiply">
+        <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 1000">
+          {/* Distant Mountains */}
+          <path d="M 0 350 Q 150 300 250 350 T 500 320 T 800 380 T 1000 300" fill="none" stroke="#2c1e1a" strokeWidth="2" />
+          <path d="M 100 370 Q 300 330 450 400 T 750 350 T 1000 400" fill="none" stroke="#2c1e1a" strokeWidth="1" strokeDasharray="8 8" />
+          
+          {/* River path (Left side) */}
+          <path d="M 250 350 Q 200 550 300 750 T 200 1000" fill="none" stroke="#2c1e1a" strokeWidth="3" />
+          <path d="M 280 350 Q 230 550 330 750 T 230 1000" fill="none" stroke="#2c1e1a" strokeWidth="1" />
+          <path d="M 220 350 Q 170 550 270 750 T 170 1000" fill="none" stroke="#2c1e1a" strokeWidth="1" />
+
+          {/* Ground / Field lines (Bottom) */}
+          <path d="M 0 620 Q 400 580 1000 620" fill="none" stroke="#2c1e1a" strokeWidth="2" />
+          <path d="M 200 620 Q 500 670 1000 720" fill="none" stroke="#2c1e1a" strokeWidth="1" />
+          <path d="M 400 650 Q 700 690 1000 780" fill="none" stroke="#2c1e1a" strokeWidth="1" strokeDasharray="12 6" />
+        </svg>
+      </div>
       
+      {/* De-emphasized and repositioned Title */}
       <motion.div 
-        initial={{ opacity: 0, filter: 'blur(10px)' }}
-        animate={{ opacity: 1, filter: 'blur(0px)' }}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        className="z-10 text-center space-y-6 md:space-y-8 max-w-4xl px-6 relative pointer-events-none mt-12 md:mt-0"
+        className="absolute top-8 left-4 md:top-12 md:left-8 z-10 pointer-events-none flex gap-4 md:gap-8"
       >
-        <div className="inline-flex items-center gap-2 md:gap-4 mb-4 md:mb-8">
-          <div className="h-px w-8 md:w-12 bg-bone-ink/30" />
-          <span className="text-[10px] md:text-xs font-serif tracking-[0.3em] uppercase text-bone-ink/60">
-            Digital Heritage
-          </span>
-          <div className="h-px w-8 md:w-12 bg-bone-ink/30" />
-        </div>
-        
-        <h1 className="text-6xl sm:text-7xl md:text-[10rem] font-serif text-bone-ink tracking-widest leading-none" style={{ textShadow: '2px 4px 12px rgba(44,30,26,0.05)' }}>
+        <h1 className="text-4xl md:text-6xl font-serif text-bone-ink tracking-[0.3em]" style={{ writingMode: 'vertical-rl', textShadow: '2px 4px 12px rgba(44,30,26,0.05)' }}>
           甲骨今译
         </h1>
-        
-        <p className="text-lg sm:text-xl md:text-2xl text-bone-ink/70 font-serif leading-relaxed max-w-2xl mx-auto tracking-widest">
-          穿越三千年的骨刻文明<br className="hidden sm:block" />以 AI 之力，解码汉字最初的生命律动
+        <div className="w-px bg-bone-ink/20 h-48 md:h-64 mt-4" />
+        <p className="text-xs md:text-sm text-bone-ink/70 font-serif tracking-widest leading-loose" style={{ writingMode: 'vertical-rl' }}>
+          穿越三千年的骨刻文明<br/>以人工智能解码汉字生命律动
         </p>
       </motion.div>
 
-      {/* Organic Mural Carvings (Hotspots) */}
-      {CHARACTERS.map((char, index) => {
-        const pos = positions[index % positions.length];
-        const isClicked = clickedId === char.id;
-        const isBottom = parseInt(pos.top) > 50;
+      {/* Organic Mural Carvings (Farming Scene) */}
+      {SCENE_ITEMS.map((item, index) => {
+        const isClicked = clickedId === item.charId;
+        const SvgComponent = item.component;
         
         return (
           <motion.div 
-            key={char.id}
+            key={item.id}
             className="absolute z-20 cursor-pointer group"
             style={{ 
-              top: pos.top, 
-              left: pos.left,
+              top: item.top, 
+              left: item.left,
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -78,7 +90,7 @@ export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => handleSelect(char.id)}
+              onClick={() => handleSelect(item.charId)}
               className="relative flex flex-col items-center"
             >
               {/* Click Ripple Animation */}
@@ -95,47 +107,23 @@ export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
                 )}
               </AnimatePresence>
 
-              {/* The "Carved" Character */}
-              <span 
-                className={`text-5xl sm:text-7xl md:text-8xl font-serif mix-blend-multiply transition-all duration-500 ${
+              {/* The "Carved" SVG Character */}
+              <div 
+                className={`mix-blend-multiply transition-all duration-500 ${
                   isClicked 
                     ? 'text-bone-brown opacity-100 drop-shadow-[0_0_20px_rgba(74,55,40,0.4)]' 
-                    : 'text-bone-ink/10 group-hover:text-bone-brown group-hover:opacity-100'
+                    : 'text-bone-ink/50 group-hover:text-bone-brown group-hover:opacity-100'
                 }`}
                 style={{ 
-                  transform: `rotate(${pos.rotate}deg) scale(${isClicked ? pos.scale * 1.1 : pos.scale})`,
+                  transform: `rotate(${item.rotate}deg) scale(${isClicked ? 1.1 : 1})`,
                 }}
               >
-                {char.char}
-              </span>
-              
-              {/* Reveal modern meaning on hover - dynamically position above or below */}
-              <div className={`absolute flex flex-col items-center transition-opacity duration-500 ${isClicked ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'} ${isBottom ? 'bottom-full mb-2 md:mb-4' : 'top-full mt-2 md:mt-4'}`}>
-                {isBottom ? (
-                  <>
-                    <span className="text-[10px] md:text-xs font-serif tracking-widest text-bone-brown bg-bone-paper/80 px-2 md:px-3 py-1 backdrop-blur-sm border border-bone-brown/20 whitespace-nowrap">
-                      {char.meaning.split('/')[0].trim()}
-                    </span>
-                    <div className="w-px h-4 md:h-6 bg-bone-brown/50 mt-1 md:mt-2" />
-                  </>
-                ) : (
-                  <>
-                    <div className="w-px h-4 md:h-6 bg-bone-brown/50 mb-1 md:mb-2" />
-                    <span className="text-[10px] md:text-xs font-serif tracking-widest text-bone-brown bg-bone-paper/80 px-2 md:px-3 py-1 backdrop-blur-sm border border-bone-brown/20 whitespace-nowrap">
-                      {char.meaning.split('/')[0].trim()}
-                    </span>
-                  </>
-                )}
+                <SvgComponent className={item.size} />
               </div>
             </motion.div>
           </motion.div>
         );
       })}
-
-      {/* Decorative vertical text */}
-      <div className="absolute top-24 left-4 md:left-12 text-bone-ink/30 font-serif text-sm md:text-lg tracking-[0.8em] pointer-events-none hidden sm:block" style={{ writingMode: 'vertical-rl' }}>
-        殷墟遗珍 · 数字化重生
-      </div>
       
       {/* Coordinates / Meta info */}
       <div className="absolute bottom-6 md:bottom-12 right-6 md:right-12 text-bone-ink/40 font-mono text-[10px] md:text-xs tracking-widest text-right pointer-events-none">
