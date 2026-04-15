@@ -7,13 +7,18 @@ interface HeroProps {
 }
 
 const SCENE_ITEMS = [
-  { id: 'sun', charId: 'sun', component: OracleSun, top: '20%', left: '65%', size: 'w-16 h-16 md:w-24 md:h-24', rotate: -5 },
-  { id: 'water', charId: 'water', component: OracleWater, top: '50%', left: '25%', size: 'w-24 h-24 md:w-32 md:h-32', rotate: 10 },
-  { id: 'horse', charId: 'horse', component: OracleHorse, top: '48%', left: '32%', size: 'w-16 h-16 md:w-24 md:h-24', rotate: -20 }, // Leaning down to drink
-  { id: 'tree', charId: 'tree', component: OracleTree, top: '35%', left: '75%', size: 'w-24 h-24 md:w-36 md:h-36', rotate: -8 },
-  { id: 'field', charId: 'field', component: OracleField, top: '70%', left: '40%', size: 'w-28 h-28 md:w-40 md:h-40', rotate: -12 },
-  { id: 'person', charId: 'person', component: OraclePerson, top: '62%', left: '55%', size: 'w-16 h-16 md:w-20 md:h-20', rotate: 15 }, // Leaning forward to pull
-  { id: 'ox', charId: 'ox', component: OracleOx, top: '60%', left: '65%', size: 'w-20 h-20 md:w-28 md:h-28', rotate: -5 }, // Following person
+  // Far Background (Sky & Horizon)
+  { id: 'sun', charId: 'sun', component: OracleSun, top: '8%', left: '50%', size: 'w-16 h-16 md:w-24 md:h-24', rotate: 0, depthClass: 'opacity-80' },
+  { id: 'tree', charId: 'tree', component: OracleTree, top: '25%', left: '65%', size: 'w-14 h-14 md:w-20 md:h-20', rotate: -5, depthClass: 'opacity-60 blur-[0.5px]' },
+  
+  // Midground (River & Animals)
+  { id: 'water', charId: 'water', component: OracleWater, top: '45%', left: '22%', size: 'w-24 h-24 md:w-36 md:h-36', rotate: -15, extraTransform: 'rotateX(65deg)', depthClass: 'opacity-60' },
+  { id: 'horse', charId: 'horse', component: OracleHorse, top: '38%', left: '32%', size: 'w-16 h-16 md:w-20 md:h-20', rotate: -15, depthClass: 'opacity-70' }, 
+  
+  // Foreground (Farming Action)
+  { id: 'person', charId: 'person', component: OraclePerson, top: '55%', left: '42%', size: 'w-20 h-20 md:w-28 md:h-28', rotate: 10, depthClass: 'opacity-90' }, 
+  { id: 'ox', charId: 'ox', component: OracleOx, top: '52%', left: '55%', size: 'w-24 h-24 md:w-32 md:h-32', rotate: -5, depthClass: 'opacity-80' }, 
+  { id: 'field', charId: 'field', component: OracleField, top: '62%', left: '68%', size: 'w-40 h-40 md:w-56 md:h-56', rotate: -10, extraTransform: 'rotateX(55deg)', depthClass: 'opacity-100' },
 ];
 
 export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
@@ -35,22 +40,34 @@ export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
       {/* Vignette effect for depth */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(44,30,26,0.05)_100%)] pointer-events-none" />
 
-      {/* Faint Landscape Background to emphasize the farming scene */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.15] mix-blend-multiply">
+      {/* Elegant Landscape Background with Topographical/Mural Feel */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.3] mix-blend-multiply">
         <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 1000">
-          {/* Distant Mountains */}
-          <path d="M 0 350 Q 150 300 250 350 T 500 320 T 800 380 T 1000 300" fill="none" stroke="#2c1e1a" strokeWidth="2" />
-          <path d="M 100 370 Q 300 330 450 400 T 750 350 T 1000 400" fill="none" stroke="#2c1e1a" strokeWidth="1" strokeDasharray="8 8" />
-          
-          {/* River path (Left side) */}
-          <path d="M 250 350 Q 200 550 300 750 T 200 1000" fill="none" stroke="#2c1e1a" strokeWidth="3" />
-          <path d="M 280 350 Q 230 550 330 750 T 230 1000" fill="none" stroke="#2c1e1a" strokeWidth="1" />
-          <path d="M 220 350 Q 170 550 270 750 T 170 1000" fill="none" stroke="#2c1e1a" strokeWidth="1" />
+          {/* Stylized Wind / Auspicious Clouds */}
+          <path d="M -50 150 C 100 130, 200 180, 350 140 S 500 170, 600 130" fill="none" stroke="#2c1e1a" strokeWidth="1.5" opacity="0.2" />
+          <path d="M 400 100 C 550 80, 650 130, 800 90 S 950 120, 1050 80" fill="none" stroke="#2c1e1a" strokeWidth="1" opacity="0.2" />
+          <path d="M 150 180 C 250 160, 300 190, 400 170" fill="none" stroke="#2c1e1a" strokeWidth="0.5" opacity="0.15" />
 
-          {/* Ground / Field lines (Bottom) */}
-          <path d="M 0 620 Q 400 580 1000 620" fill="none" stroke="#2c1e1a" strokeWidth="2" />
-          <path d="M 200 620 Q 500 670 1000 720" fill="none" stroke="#2c1e1a" strokeWidth="1" />
-          <path d="M 400 650 Q 700 690 1000 780" fill="none" stroke="#2c1e1a" strokeWidth="1" strokeDasharray="12 6" />
+          {/* Distant Mountain Ranges (Layered for depth, smoother curves) */}
+          <path d="M 0 280 C 150 260, 250 290, 400 250 S 600 280, 750 240 S 900 270, 1000 250" fill="none" stroke="#2c1e1a" strokeWidth="1" opacity="0.2" />
+          <path d="M 0 310 C 120 270, 220 250, 350 290 S 550 240, 700 280 S 850 250, 1000 290" fill="none" stroke="#2c1e1a" strokeWidth="1.5" opacity="0.3" />
+          <path d="M 250 310 C 350 280, 450 270, 550 310" fill="none" stroke="#2c1e1a" strokeWidth="1" opacity="0.2" />
+          <path d="M 650 310 C 750 270, 850 260, 950 310" fill="none" stroke="#2c1e1a" strokeWidth="1" opacity="0.2" />
+
+          {/* Soft Horizon Line */}
+          <path d="M 0 310 C 333 320, 666 320, 1000 310" fill="none" stroke="#2c1e1a" strokeWidth="1.5" opacity="0.4" />
+
+          {/* Flowing River (Meandering curves instead of straight perspective lines) */}
+          <path d="M 380 310 C 350 450, 200 600, 250 800 S 50 950, -50 1000" fill="none" stroke="#2c1e1a" strokeWidth="2" opacity="0.4" />
+          <path d="M 400 310 C 380 450, 250 600, 300 800 S 100 950, 0 1000" fill="none" stroke="#2c1e1a" strokeWidth="1.5" opacity="0.3" />
+          <path d="M 420 310 C 410 450, 300 600, 350 800 S 150 950, 50 1000" fill="none" stroke="#2c1e1a" strokeWidth="1" opacity="0.2" />
+
+          {/* Terraced Fields / Topographical Contours (Replacing harsh radiating lines) */}
+          <path d="M 450 380 C 600 400, 800 360, 1000 420" fill="none" stroke="#2c1e1a" strokeWidth="1" opacity="0.2" />
+          <path d="M 420 450 C 650 480, 850 430, 1000 520" fill="none" stroke="#2c1e1a" strokeWidth="1.5" opacity="0.3" />
+          <path d="M 350 550 C 600 600, 800 520, 1000 650" fill="none" stroke="#2c1e1a" strokeWidth="1.5" opacity="0.3" strokeDasharray="12 6" />
+          <path d="M 250 700 C 550 780, 750 680, 1000 850" fill="none" stroke="#2c1e1a" strokeWidth="2" opacity="0.4" strokeDasharray="18 9" />
+          <path d="M 100 880 C 450 980, 700 850, 1000 1050" fill="none" stroke="#2c1e1a" strokeWidth="2" opacity="0.5" strokeDasharray="24 12" />
         </svg>
       </div>
       
@@ -65,7 +82,7 @@ export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
           甲骨今译
         </h1>
         <div className="w-px bg-bone-ink/20 h-48 md:h-64 mt-4" />
-        <p className="text-xs md:text-sm text-bone-ink/70 font-serif tracking-widest leading-loose" style={{ writingMode: 'vertical-rl' }}>
+        <p className="text-sm md:text-base text-bone-ink/70 font-serif tracking-widest leading-loose" style={{ writingMode: 'vertical-rl' }}>
           穿越三千年的骨刻文明<br/>以人工智能解码汉字生命律动
         </p>
       </motion.div>
@@ -109,27 +126,33 @@ export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
 
               {/* The "Carved" SVG Character */}
               <div 
-                className={`mix-blend-multiply transition-all duration-500 ${
+                className={`mix-blend-multiply transition-all duration-500 relative ${item.depthClass} group-hover:!opacity-100 group-hover:!blur-none ${
                   isClicked 
-                    ? 'text-bone-brown opacity-100 drop-shadow-[0_0_20px_rgba(74,55,40,0.4)]' 
-                    : 'text-bone-ink/50 group-hover:text-bone-brown group-hover:opacity-100'
+                    ? 'text-bone-brown !opacity-100 !blur-none drop-shadow-[0_0_20px_rgba(74,55,40,0.4)]' 
+                    : 'text-bone-ink group-hover:text-bone-brown'
                 }`}
                 style={{ 
-                  transform: `rotate(${item.rotate}deg) scale(${isClicked ? 1.1 : 1})`,
+                  transform: `perspective(500px) ${item.extraTransform || ''} rotate(${item.rotate}deg) scale(${isClicked ? 1.1 : 1})`,
                 }}
               >
-                <SvgComponent className={item.size} />
+                {/* Cast Shadow for standing objects (pointing South) */}
+                {item.id !== 'sun' && item.id !== 'water' && item.id !== 'field' && (
+                  <div 
+                    className="absolute inset-0 text-bone-ink/50 blur-[2px] pointer-events-none origin-bottom"
+                    style={{ transform: 'scaleY(-0.5) skewX(15deg) translateY(-5%)' }}
+                  >
+                    <SvgComponent className="w-full h-full" />
+                  </div>
+                )}
+                
+                <SvgComponent className={`relative z-10 ${item.size}`} />
               </div>
             </motion.div>
           </motion.div>
         );
       })}
       
-      {/* Coordinates / Meta info */}
-      <div className="absolute bottom-6 md:bottom-12 right-6 md:right-12 text-bone-ink/40 font-mono text-[10px] md:text-xs tracking-widest text-right pointer-events-none">
-        <p>LAT 36°07'N / LON 114°19'E</p>
-        <p className="mt-1">YINXU RUINS, ANYANG</p>
-      </div>
+      {/* Coordinates / Meta info removed per user request */}
     </section>
   );
 };

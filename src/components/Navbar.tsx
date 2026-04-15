@@ -37,7 +37,7 @@ export const Navbar = () => {
         </div>
         
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-10 text-sm font-medium tracking-widest">
+        <div className="hidden md:flex items-center gap-10 text-base font-medium tracking-widest">
           {links.map((link) => (
             <NavLink
               key={link.path}
@@ -59,7 +59,7 @@ export const Navbar = () => {
                   {link.isTech && isTechTheme && (
                     <span className="text-amber-500 mr-1 font-mono">&gt;</span>
                   )}
-                  <span className={link.isTech && !isTechTheme ? 'font-mono text-xs tracking-widest' : ''}>
+                  <span className={link.isTech && !isTechTheme ? 'font-mono text-sm tracking-widest' : ''}>
                     {link.label}
                   </span>
                   {isActive && (
@@ -75,7 +75,7 @@ export const Navbar = () => {
         </div>
 
         <div className="hidden md:block">
-          <button className={`border rounded-none px-6 py-2 text-sm tracking-widest uppercase transition-colors duration-700 ${
+          <button className={`border rounded-none px-6 py-2 text-base tracking-widest uppercase transition-colors duration-700 ${
             isTechTheme 
               ? 'border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-zinc-950 font-mono' 
               : 'border-bone-ink text-bone-ink hover:bg-bone-ink hover:text-bone-paper'
@@ -104,7 +104,7 @@ export const Navbar = () => {
               isTechTheme ? 'bg-zinc-950 text-zinc-100' : 'bg-bone-paper text-bone-ink'
             }`}
           >
-            <div className="flex flex-col gap-8 text-xl font-serif tracking-widest">
+            <div className="flex flex-col gap-8 text-2xl font-serif tracking-widest">
               {links.map((link) => (
                 <NavLink
                   key={link.path}
@@ -121,7 +121,7 @@ export const Navbar = () => {
                   {link.label}
                 </NavLink>
               ))}
-              <button className={`mt-8 border rounded-none px-6 py-4 text-sm tracking-widest uppercase transition-colors ${
+              <button className={`mt-8 border rounded-none px-6 py-4 text-base tracking-widest uppercase transition-colors ${
                 isTechTheme 
                   ? 'border-amber-500 text-amber-500 font-mono' 
                   : 'border-bone-ink text-bone-ink'
