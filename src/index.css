@@ -34,6 +34,33 @@
 .tech-panel {
   @apply bg-bone-ink text-white border border-bone-cyan/30 shadow-[0_0_15px_rgba(0,139,139,0.1)];
 }
+
+.scrollbar-reveal {
+  scrollbar-width: none;
+}
+
+.scrollbar-reveal::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.scrollbar-reveal:hover {
+  scrollbar-width: thin;
+}
+
+.scrollbar-reveal:hover::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-reveal:hover::-webkit-scrollbar-thumb {
+  background: rgba(44, 30, 26, 0.35);
+  border-radius: 999px;
+}
+
+.scrollbar-reveal:hover::-webkit-scrollbar-track {
+  background: transparent;
+}
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";

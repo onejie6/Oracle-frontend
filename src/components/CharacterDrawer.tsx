@@ -97,8 +97,13 @@ export const CharacterDrawer: React.FC<CharacterDrawerProps> = ({ character, isO
                     <div className="absolute left-0 right-0 h-px bg-bone-ink/10 top-1/2 -translate-y-1/2 group-hover:bg-bone-brown/30 transition-colors" />
                     {character.evolution.map((step, idx) => (
                       <div key={step.era} className="relative z-10 flex flex-col items-center gap-2 bg-bone-paper px-1 md:px-2">
-                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-bone-ink bg-bone-paper flex items-center justify-center text-sm md:text-base font-serif text-bone-ink group-hover:border-bone-brown group-hover:text-bone-brown transition-colors">
-                          {step.era[0]}
+                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-bone-ink/30 bg-white overflow-hidden flex items-center justify-center group-hover:border-bone-brown transition-colors">
+                          <img
+                            src={step.image}
+                            alt={step.era}
+                            className="w-full h-full object-contain p-[2px] opacity-90 mix-blend-multiply"
+                            referrerPolicy="no-referrer"
+                          />
                         </div>
                       </div>
                     ))}

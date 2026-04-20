@@ -1,28 +1,67 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { OracleSun, OracleWater, OracleTree, OracleHorse, OracleField, OracleOx, OraclePerson } from './OracleSVGs';
+import { OracleWater, OracleField } from './OracleSVGs';
 
 interface HeroProps {
   onSelectChar: (id: string) => void;
 }
 
+type OracleGlyphComponent = React.FC<{ className?: string }>;
+
+const HERO_GLYPH_IMAGES: Partial<Record<string, string>> = {
+  sun: '/pictures/日.png',
+  tree: '/pictures/木.png',
+  horse: '/pictures/马.png',
+  person: '/pictures/人.png',
+  ox: '/pictures/牛.png',
+  homeTop: '/pictures/家.png',
+  mountain: '/pictures/山.png',
+  cloud: '/pictures/云.png',
+};
+
 const SCENE_ITEMS = [
   // Far Background (Sky & Horizon)
-  { id: 'sun', charId: 'sun', component: OracleSun, top: '8%', left: '50%', size: 'w-16 h-16 md:w-24 md:h-24', rotate: 0, depthClass: 'opacity-80' },
-  { id: 'tree', charId: 'tree', component: OracleTree, top: '25%', left: '65%', size: 'w-14 h-14 md:w-20 md:h-20', rotate: -5, depthClass: 'opacity-60 blur-[0.5px]' },
+  { id: 'sun', charId: 'sun', imagePath: HERO_GLYPH_IMAGES.sun, top: '9%', left: '33%', size: 'w-16 h-16 md:w-24 md:h-24', rotate: -2, depthClass: 'opacity-86' },
+  { id: 'tree', charId: 'tree', imagePath: HERO_GLYPH_IMAGES.tree, top: '23%', left: '24%', size: 'w-20 h-20 md:w-24 md:h-24', rotate: -6, depthClass: 'opacity-74' },
+  { id: 'home-top', charId: 'home', imagePath: HERO_GLYPH_IMAGES.homeTop, top: '57%', left: '75%', size: 'w-20 h-20 md:w-28 md:h-28', rotate: -8, depthClass: 'opacity-78' },
+  { id: 'mountain-ridge', charId: 'mountain', imagePath: HERO_GLYPH_IMAGES.mountain, top: '20%', left: '84%', size: 'w-20 h-20 md:w-28 md:h-28', rotate: -4, depthClass: 'opacity-82 blur-[0.2px]' },
+  { id: 'cloud-drift', charId: 'cloud', imagePath: HERO_GLYPH_IMAGES.cloud, top: '10%', left: '69%', size: 'w-24 h-12 md:w-36 md:h-20', rotate: -6, depthClass: 'opacity-86' },
   
   // Midground (River & Animals)
-  { id: 'water', charId: 'water', component: OracleWater, top: '45%', left: '22%', size: 'w-24 h-24 md:w-36 md:h-36', rotate: -15, extraTransform: 'rotateX(65deg)', depthClass: 'opacity-60' },
-  { id: 'horse', charId: 'horse', component: OracleHorse, top: '38%', left: '32%', size: 'w-16 h-16 md:w-20 md:h-20', rotate: -15, depthClass: 'opacity-70' }, 
+  { id: 'water', charId: 'water', component: OracleWater, top: '46%', left: '21%', size: 'w-24 h-24 md:w-36 md:h-36', rotate: -15, extraTransform: 'rotateX(65deg)', depthClass: 'opacity-60' },
+  { id: 'horse', charId: 'horse', imagePath: HERO_GLYPH_IMAGES.horse, top: '39%', left: '31%', size: 'w-16 h-16 md:w-20 md:h-20', rotate: -14, depthClass: 'opacity-80' }, 
   
   // Foreground (Farming Action)
-  { id: 'person', charId: 'person', component: OraclePerson, top: '55%', left: '42%', size: 'w-20 h-20 md:w-28 md:h-28', rotate: 10, depthClass: 'opacity-90' }, 
-  { id: 'ox', charId: 'ox', component: OracleOx, top: '52%', left: '55%', size: 'w-24 h-24 md:w-32 md:h-32', rotate: -5, depthClass: 'opacity-80' }, 
-  { id: 'field', charId: 'field', component: OracleField, top: '62%', left: '68%', size: 'w-40 h-40 md:w-56 md:h-56', rotate: -10, extraTransform: 'rotateX(55deg)', depthClass: 'opacity-100' },
+  { id: 'person', charId: 'person', imagePath: HERO_GLYPH_IMAGES.person, top: '56%', left: '50%', size: 'w-20 h-20 md:w-28 md:h-28', rotate: 9, depthClass: 'opacity-92' }, 
+  { id: 'ox', charId: 'ox', imagePath: HERO_GLYPH_IMAGES.ox, top: '43%', left: '63%', size: 'w-24 h-24 md:w-32 md:h-32', rotate: -5, depthClass: 'opacity-86' }, 
+  { id: 'field', charId: 'field', component: OracleField, top: '63%', left: '65%', size: 'w-40 h-40 md:w-56 md:h-56', rotate: -10, extraTransform: 'rotateX(55deg)', depthClass: 'opacity-100' },
 ];
 
 export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
   const [clickedId, setClickedId] = useState<string | null>(null);
+
+  const renderGlyph = (
+    imagePath: string | undefined,
+    SvgComponent: OracleGlyphComponent | undefined,
+    className: string,
+    alt: string,
+  ) => {
+    if (imagePath) {
+      return (
+        <img
+          src={imagePath}
+          alt={alt}
+          className={`${className} object-contain`}
+          loading="lazy"
+          decoding="async"
+        />
+      );
+    }
+    if (!SvgComponent) {
+      return null;
+    }
+    return <SvgComponent className={className} />;
+  };
 
   const handleSelect = (id: string) => {
     setClickedId(id);
@@ -136,16 +175,16 @@ export const Hero: React.FC<HeroProps> = ({ onSelectChar }) => {
                 }}
               >
                 {/* Cast Shadow for standing objects (pointing South) */}
-                {item.id !== 'sun' && item.id !== 'water' && item.id !== 'field' && (
+                {item.id !== 'sun' && item.id !== 'water' && item.id !== 'field' && !item.imagePath && (
                   <div 
                     className="absolute inset-0 text-bone-ink/50 blur-[2px] pointer-events-none origin-bottom"
                     style={{ transform: 'scaleY(-0.5) skewX(15deg) translateY(-5%)' }}
                   >
-                    <SvgComponent className="w-full h-full" />
+                    {renderGlyph(item.imagePath, SvgComponent, 'w-full h-full', `${item.id} shadow glyph`)}
                   </div>
                 )}
                 
-                <SvgComponent className={`relative z-10 ${item.size}`} />
+                {renderGlyph(item.imagePath, SvgComponent, `relative z-10 ${item.size} drop-shadow-[0_6px_10px_rgba(44,30,26,0.22)]`, `${item.id} oracle glyph`)}
               </div>
             </motion.div>
           </motion.div>

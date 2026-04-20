@@ -12,8 +12,8 @@ export const AssistantSection = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12 md:mb-20 border-b border-bone-ink/10 pb-6 md:pb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
           <div>
-            <h2 className="text-3xl md:text-4xl font-serif text-bone-ink mb-2 md:mb-4">未知字辅助释读</h2>
-            <p className="text-bone-ink/60 max-w-2xl tracking-widest text-sm md:text-base">
+            <h2 className="text-5xl md:text-6xl font-serif text-bone-ink mb-3 md:mb-5">未知字辅助释读</h2>
+            <p className="text-bone-ink/65 max-w-3xl tracking-widest text-lg md:text-xl leading-relaxed">
               提供“法医式”的释读推理面板，多维度证据链支持，辅助学者攻克未识字难题。
             </p>
           </div>
@@ -22,9 +22,9 @@ export const AssistantSection = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 items-start">
           {/* Left: Unknown Image */}
-          <div className="lg:col-span-4 space-y-4 md:space-y-6">
+          <div className="lg:col-span-3 space-y-4 md:space-y-6 lg:pt-3">
             <h3 className="text-base font-bold text-bone-ink/50 uppercase tracking-widest flex items-center gap-2 mb-4 md:mb-6">
               <Search className="w-3 h-3 md:w-4 md:h-4" /> 待释读目标
             </h3>
@@ -57,7 +57,7 @@ export const AssistantSection = () => {
             <h3 className="text-base font-bold text-bone-ink/50 uppercase tracking-widest flex items-center gap-2 mb-4 md:mb-6">
               <ShieldCheck className="w-3 h-3 md:w-4 md:h-4" /> Top-3 候选方向
             </h3>
-            <div className="space-y-3 md:space-y-4">
+            <div className="space-y-3 md:space-y-4 lg:max-h-[760px] lg:overflow-y-auto lg:pr-2 scrollbar-reveal">
               {currentCase.candidates.map((cand, idx) => (
                 <motion.div 
                   key={cand.title}
@@ -84,7 +84,7 @@ export const AssistantSection = () => {
           </div>
 
           {/* Right: Evidence Panel */}
-          <div className="lg:col-span-4 space-y-4 md:space-y-6">
+          <div className="lg:col-span-5 space-y-4 md:space-y-6 lg:max-h-[760px] lg:overflow-y-auto lg:pr-2 scrollbar-reveal">
             <h3 className="text-base font-bold text-bone-ink/50 uppercase tracking-widest flex items-center gap-2 mb-4 md:mb-6">
               <FileText className="w-3 h-3 md:w-4 md:h-4" /> 证据链分析
             </h3>
@@ -122,9 +122,9 @@ export const AssistantSection = () => {
                 <p className="text-base md:text-lg text-bone-ink/80 leading-relaxed font-serif">{currentCase.forensic.evolution}</p>
               </div>
               
-              <div className="mt-8 md:mt-12 p-4 md:p-6 bg-bone-ink text-bone-paper">
-                <div className="text-base font-bold tracking-widest uppercase mb-2 md:mb-4 text-bone-paper/50">专家审慎建议</div>
-                <p className="text-base md:text-lg leading-relaxed font-serif">
+              <div className="mt-8 md:mt-12 p-4 md:p-6 bg-[#fff4cc] border border-[#f1d88a] text-bone-ink">
+                <div className="text-base font-bold tracking-widest uppercase mb-2 md:mb-4 text-[#9a7a2a]">专家审慎建议</div>
+                <p className="text-base md:text-lg leading-relaxed font-serif text-bone-ink/85">
                   {currentCase.expertAdvice}
                 </p>
               </div>

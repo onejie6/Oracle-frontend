@@ -59,8 +59,8 @@ export const EvolutionSection = () => {
         <div className="flex flex-col md:flex-row gap-12 md:gap-16">
           {/* Left: Character List */}
           <div className="md:w-1/3 space-y-4 md:border-r border-bone-ink/10 md:pr-8">
-            <h2 className="text-3xl md:text-4xl font-serif text-bone-ink mb-2">单字演化讲解</h2>
-            <p className="text-bone-ink/50 text-sm md:text-base tracking-widest mb-8 md:mb-12">
+            <h2 className="text-4xl md:text-5xl font-serif text-bone-ink mb-3">单字演化讲解</h2>
+            <p className="text-bone-ink/55 text-base md:text-lg tracking-widest mb-8 md:mb-12">
               通过 AI 视觉比对，追踪甲骨文至现代楷书的形态演变。
             </p>
             <div className="flex flex-row md:flex-col gap-2 md:gap-1 overflow-x-auto pb-4 md:pb-0 scrollbar-hide">
@@ -70,17 +70,17 @@ export const EvolutionSection = () => {
                   onClick={() => setSelectedId(char.id)}
                   className={`shrink-0 px-4 md:px-6 py-3 md:py-4 transition-all text-left flex flex-col md:flex-row justify-between items-center md:items-center border border-transparent group ${
                     selectedId === char.id 
-                      ? 'bg-bone-ink text-bone-paper border-bone-ink' 
+                      ? 'bg-[#fff4cc] text-bone-ink border-[#f1d88a]' 
                       : 'bg-bone-ink/5 md:bg-transparent hover:border-bone-ink/20 text-bone-ink/60'
                   }`}
                 >
                   <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-0">
-                    <div className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center ${selectedId === char.id ? 'text-bone-paper' : 'text-bone-ink/40 group-hover:text-bone-ink'}`}>
+                    <div className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center ${selectedId === char.id ? 'text-bone-ink' : 'text-bone-ink/40 group-hover:text-bone-ink'}`}>
                       {getOracleSvg(char.id, char.char, "w-full h-full")}
                     </div>
                     <span className="text-2xl md:text-3xl font-serif hidden md:block">{char.char}</span>
                   </div>
-                  <span className={`text-sm md:text-base tracking-widest ${selectedId === char.id ? 'text-bone-paper/60' : 'text-bone-ink/40'}`}>
+                  <span className={`text-sm md:text-base tracking-widest ${selectedId === char.id ? 'text-bone-ink/60' : 'text-bone-ink/40'}`}>
                     {char.pinyin}
                   </span>
                 </button>
@@ -114,27 +114,27 @@ export const EvolutionSection = () => {
                 </div>
 
                 {/* Evolution Timeline */}
-                <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-center gap-8 sm:gap-0 mb-16 md:mb-20">
+                <div className="relative flex flex-col sm:flex-row justify-between items-start sm:items-start gap-8 sm:gap-2 mb-8 md:mb-10">
                   <div className="hidden sm:block absolute top-10 md:top-12 left-0 right-0 h-px bg-bone-ink/20 z-0" />
                   <div className="sm:hidden absolute left-10 top-0 bottom-0 w-px bg-bone-ink/20 z-0" />
                   {currentChar.evolution.map((step, idx) => (
                     <div 
                       key={step.era}
-                      className="relative z-10 flex flex-row sm:flex-col items-center gap-4 md:gap-6 group w-full sm:w-auto"
+                      className="relative z-10 flex flex-row sm:flex-col items-center sm:items-center gap-4 md:gap-6 group w-full sm:w-[150px] md:w-[170px]"
                     >
-                      <div className="w-20 h-20 md:w-24 md:h-24 shrink-0 bg-bone-paper border border-bone-ink flex items-center justify-center overflow-hidden group-hover:bg-bone-ink transition-colors">
-                        <img src={step.image} alt={step.era} className="w-full h-full object-contain p-2 opacity-80 group-hover:opacity-100 group-hover:invert transition-all mix-blend-multiply" referrerPolicy="no-referrer" />
+                      <div className="w-20 h-20 md:w-24 md:h-24 shrink-0 bg-bone-paper border border-bone-ink flex items-center justify-center overflow-hidden group-hover:bg-[#fff4cc] group-hover:border-[#f1d88a] transition-colors">
+                        <img src={step.image} alt={step.era} className="w-full h-full object-contain p-2 opacity-80 group-hover:opacity-100 transition-all mix-blend-multiply" referrerPolicy="no-referrer" />
                       </div>
-                      <div className="text-left sm:text-center flex-grow">
+                      <div className="text-left sm:text-center flex-grow sm:w-full">
                         <div className="font-serif font-bold text-bone-ink text-lg md:text-xl">{step.era}</div>
-                        <div className="text-sm md:text-base text-bone-ink/50 sm:max-w-[100px] mt-1 md:mt-2 leading-relaxed">{step.description}</div>
+                        <div className="text-sm md:text-base text-bone-ink/55 sm:max-w-[150px] md:max-w-[170px] mt-1 md:mt-2 leading-relaxed">{step.description}</div>
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* AI Analysis Panel */}
-                <div className="mt-auto border-t border-bone-ink/10 pt-6 md:pt-8">
+                <div className="mt-2 md:mt-4 border-t border-bone-ink/10 pt-6 md:pt-8">
                   <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
                     <div className="w-1.5 h-1.5 bg-bone-cyan rounded-full" />
                     <span className="text-sm md:text-base font-bold tracking-widest text-bone-ink/50 uppercase">AI 深度解析</span>
